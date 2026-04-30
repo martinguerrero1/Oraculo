@@ -15,33 +15,40 @@ function generarNumero() {
   return numero
 }
 
-function adivinar() { 
-  mostrarIntentos(`Intentos: ${intentos}`)
-
+function adivinar() {
   let intento = Number(document.getElementById("inputNumero").value);
-  console.log("Value del input:", intento);
 
-  // validacion para que el input sea un numero entero
-  if(Number.isNaN(intento) || intento > 1 || intento < 100) {
-    mostrarMensaje("Ingresa un numero entre 1 y 100");
-  }
+  if(intento){
 
-  intentos++;
+    // "ERRORES"
+    if(Number.isNaN(intento) || intento < 1 || intento > 100 || intento === 0) {
+      document.getElementById("inputNumero").value = "";
+      //retorna el mensaje y no suma el intento
+      return mostrarMensaje("¡¡Ingresa un numero entre 1 y 100!!");
+    }
+  
+    // verificacion donde se adivina el numero
+    if(intento === numeroSecreto){
+      mostrarMensaje(`Perfecto! El numero era ${intento}`)
+      mostrarIntentos(`Te llevó un total de ${intentos} intentos`)
+      document.getElementById("btnReset").style.display = "block";
+    }
+    else if (intento < numeroSecreto){
+      mostrarMensaje(`Incorrecto! El numero secreto es mayor a ${intento}`)
+    }
+    else if (intento > numeroSecreto){
+      mostrarMensaje(`Incorrecto! El numero secreto es menor a ${intento}`)
+    }
 
-  // verificacion donde se adivina el numero
-  if(intento === numeroSecreto){
-    mostrarMensaje(`Perfecto! El numero era ${intento}`)
-    mostrarIntentos(`Te llevó un total de ${intentos} intentos`)
-    document.getElementById("btnReset").style.display = "block";
+    intentos++;
+    mostrarIntentos(`Intentos: ${intentos}`)
+  
+    document.getElementById("inputNumero").value = "";
   }
-  else if (intento < numeroSecreto){
-    mostrarMensaje(`Incorrecto! El numero secreto es mayor a ${intento}`)
+  else{
+    document.getElementById("inputNumero").value = "";
+    return mostrarMensaje("¡¡Ingresa un numero entre 1 y 100!!");
   }
-  else if (intento > numeroSecreto){
-    mostrarMensaje(`Incorrecto! El numero secreto es menor a ${intento}`)
-  }
-
-  document.getElementById("inputNumero").value = "";
 }
 
 function reiniciar() {
